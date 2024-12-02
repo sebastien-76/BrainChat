@@ -24,6 +24,14 @@ class ChatMessage
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
+    #[ORM\ManyToOne(inversedBy: 'chatMessages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Room $Room = null;
+
+    #[ORM\ManyToOne(inversedBy: 'chatMessages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $User = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -37,6 +45,30 @@ class ChatMessage
     public function setContent(string $content): static
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getRoom(): ?Room
+    {
+        return $this->Room;
+    }
+
+    public function setRoom(?Room $Room): static
+    {
+        $this->Room = $Room;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): static
+    {
+        $this->User = $User;
 
         return $this;
     }
