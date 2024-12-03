@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ChatMessage{% endblock %}
+
+{% block body %}
+    <h1>ChatMessage</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ chat_message.id }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ chat_message.content }}</td>
+            </tr>
+            <tr>
+                <th>DeletedAt</th>
+                <td>{{ chat_message.deletedAt ? chat_message.deletedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ chat_message.createdAt ? chat_message.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ chat_message.updatedAt ? chat_message.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_chat_message_index') }}">back to list</a>
+
+    <a href="{{ path('app_chat_message_edit', {'id': chat_message.id}) }}">edit</a>
+
+    {{ include('chat_message/_delete_form.html.twig') }}
+{% endblock %}
