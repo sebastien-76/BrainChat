@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chat{% endblock %}
+
+{% block body %}
+    <div class="container-fluid mt-4 h-100">
+        <div class="row">
+            {# Sidebar avec la liste des rooms #}
+            <nav class="col-md-3 col-lg-2 sidebar shadow-sm h-100">
+                <div class="p-4 bg-white">
+                    <h4 class="mb-4 text-primary border-bottom pb-2">Liste des rooms</h4>
+                    <ul class="nav nav-pills flex-column gap-2">
+                        {% for room in rooms %}
+                            <li class="nav-item">
+                                <a class="nav-link text-truncate {% if room.id == currentRoom.id %}active{% else %}text-dark hover-primary{% endif %}"
+                                   href="{{ path('app_chat_show', {'id': room.id}) }}">
+                                    <i class="bi bi-chat-left me-2"></i>
+                                    {{ room.title }}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item p-3 text-muted text-center bg-light rounded">
+                                Aucune room disponible
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </nav>
+
+            {# Section principale avec les messages #}
+            <div class="col-md-9 col-lg-10">
+                <h1 class="text-center mb-4">{{ currentRoom.title }}</h1>
+                <div class="card h-80">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Messages</h5>
+                    </div>
+
+                    {# Zone des messages #}
+                    <div class="card-body" style="height: calc(100vh - 300px); overflow-y: auto;">
+                        <ul class="list-group">
+                            {% for chat_message in chat_messages %}
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ chat_message.user.author }}</strong>
+                                            <br>
+                                            <p class="mb-0">{{ chat_message.content }}</p>
+                                        </div>
+                                        <small class="text-muted">
+                                            {{ chat_message.createdAt|date('Y-m-d H:i:s') }}
+                                        </small>
+                                    </div>
+                                </li>
+                            {% else %}
+                                <li class="list-group-item text-center text-muted">
+                                    Aucun message pour le moment !
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    {# Formulaire d'envoi de message #}
+
+                    <div class="card-footer">
+                        {{ include('chat_message/_form.html.twig') }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
