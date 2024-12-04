@@ -11,11 +11,15 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(TokenInterface $token): Response
+    public function index(): Response
     {
-        $user = $token->getUser();
+        $sessionUser = $this->getUser();
+        if ($sessionUser instanceof User) {
         return $this->render('home/index.html.twig',
-        ['user' => $user]
+        ['user' => $sessionUser]
     );
+    } else {
+        return $this->redirectToRoute('app_login');
+    };
     }
 }
