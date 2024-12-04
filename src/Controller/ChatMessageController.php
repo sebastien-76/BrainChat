@@ -28,15 +28,18 @@ final class ChatMessageController extends AbstractController
     {
         $room = $roomRepository->find($id);
         $chatMessage = new ChatMessage();
-        $chatMessage->setRoom($room);
+
+
         $form = $this->createForm(ChatMessageType::class, $chatMessage);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $chatMessage->setRoom($room);
             $entityManager->persist($chatMessage);
+
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_chat_show', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_chat_show', ['id' => $id], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('chat_message/new.html.twig', [
