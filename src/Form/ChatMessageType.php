@@ -16,15 +16,6 @@ class ChatMessageType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('deletedAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
             ->add('Room', EntityType::class, [
                 'class' => Room::class,
                 'choice_label' => 'id',

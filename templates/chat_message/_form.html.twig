@@ -1,4 +1,9 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_widget(form.content) }}
+    {{ form_widget(form.Room,  {'attr': {'class': 'd-none'}, 'type': 'hidden'}) }}
+    {{ form_widget(form.User,  {'attr': {'class': 'd-none'}, 'type': 'hidden'}) }}
+
+<div class="mt-4">
+    <button class="btn btn-primary"">{{ button_label|default('Enregister') }}</button>
+</div>
 {{ form_end(form) }}

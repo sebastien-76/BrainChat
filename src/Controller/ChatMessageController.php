@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\ChatMessage;
 use App\Form\ChatMessageType;
-use App\Repository\ChatMessageRepository;
+use App\Repository\RoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ChatMessageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/message')]
 final class ChatMessageController extends AbstractController
@@ -22,10 +23,12 @@ final class ChatMessageController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_chat_message_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{id}', name: 'app_chat_message_new', methods: ['GET', 'POST'])]
+    public function new(int $id, Request $request, EntityManagerInterface $entityManager, RoomRepository $roomRepository): Response
     {
+        $room = $roomRepository->find($id);
         $chatMessage = new ChatMessage();
+        $chatMessage->setRoom($room);
         $form = $this->createForm(ChatMessageType::class, $chatMessage);
         $form->handleRequest($request);
 
@@ -33,7 +36,7 @@ final class ChatMessageController extends AbstractController
             $entityManager->persist($chatMessage);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_chat_message_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_chat_show', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('chat_message/new.html.twig', [
