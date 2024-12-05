@@ -33,7 +33,7 @@ final class RoomController extends AbstractController
             $entityManager->persist($room);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_chat_show', ['id' => $room->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('room/new.html.twig', [
@@ -59,7 +59,7 @@ final class RoomController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_chat_show', ['id' => $room->getId()],  Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('room/edit.html.twig', [

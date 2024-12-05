@@ -1,34 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Room{% endblock %}
+{% block title %}Détails de la salle{% endblock %}
 
 {% block body %}
-    <h1>Room</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center mb-4">Détails de la salle</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ room.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ room.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ room.description }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ room.createdAt ? room.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <div class="card shadow">
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th width="30%">ID</th>
+                                <td>{{ room.id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Titre</th>
+                                <td>{{ room.title }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ room.description }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date de création</th>
+                                <td>{{ room.createdAt ? room.createdAt|date('d/m/Y H:i') : '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-    <a href="{{ path('app_room_index') }}">back to list</a>
-
-    <a href="{{ path('app_room_edit', {'id': room.id}) }}">edit</a>
-
-    {{ include('room/_delete_form.html.twig') }}
+            <div class="text-center mt-4">
+                <div class="btn-group" role="group">
+                    <a href="{{ path('app_room_index') }}" class="btn btn-secondary me-2">
+                        <i class="fas fa-arrow-left me-2"></i>Retour
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

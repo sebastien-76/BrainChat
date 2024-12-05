@@ -1,11 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Room{% endblock %}
+{% block title %}Nouvelle salle{% endblock %}
 
 {% block body %}
-    <h1>Create new Room</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center mb-4">Créer une nouvelle salle</h1>
 
-    {{ include('room/_form.html.twig') }}
+            <div class="card shadow">
+                <div class="card-body">
+                    {{ include('room/_form.html.twig', {
+                        'button_label': 'Créer',
+                        'title': 'Nouvelle salle'
+                    }) }}
+                </div>
+            </div>
 
-    <a href="{{ path('app_room_index') }}">back to list</a>
+            <div class="text-center mt-4">
+                <a href="{{ path('app_room_index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Retour à la liste
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
