@@ -13,11 +13,7 @@ class RoomType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-        ;
+            ->add('description');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -1,39 +1,53 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Room index{% endblock %}
+{% block title %}Liste des salles{% endblock %}
 
 {% block body %}
-    <h1>Room index</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h1 class="text-center mb-4">Liste des salles</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>CreatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for room in rooms %}
-            <tr>
-                <td>{{ room.id }}</td>
-                <td>{{ room.title }}</td>
-                <td>{{ room.description }}</td>
-                <td>{{ room.createdAt ? room.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_room_show', {'id': room.id}) }}">show</a>
-                    <a href="{{ path('app_room_edit', {'id': room.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_room_new') }}">Create new</a>
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Titre</th>
+                                    <th>Description</th>
+                                    <th>Date de création</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for room in rooms %}
+                                <tr>
+                                    <td>{{ room.id }}</td>
+                                    <td>{{ room.title }}</td>
+                                    <td>{{ room.description }}</td>
+                                    <td>{{ room.createdAt ? room.createdAt|date('d/m/Y H:i') : '' }}</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                        <a href="{{ path('app_user_show', {'id': room.id}) }}" class="btn btn-sm btn-primary">Voir</a>
+                                        <a href="{{ path('app_user_edit', {'id': room.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
+                                    </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">
+                                        <i class="fas fa-info-circle me-2"></i>Aucune salle trouvée
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
