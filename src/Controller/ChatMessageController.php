@@ -10,12 +10,14 @@ use App\Repository\ChatMessageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/message')]
 final class ChatMessageController extends AbstractController
 {
     #[Route(name: 'app_chat_message_index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(ChatMessageRepository $chatMessageRepository): Response
     {
         return $this->render('chat_message/index.html.twig', [
@@ -24,6 +26,7 @@ final class ChatMessageController extends AbstractController
     }
 
     #[Route('/new/{id}', name: 'app_chat_message_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(int $id, Request $request, EntityManagerInterface $entityManager, RoomRepository $roomRepository): Response
     {
         $room = $roomRepository->find($id);
@@ -49,6 +52,7 @@ final class ChatMessageController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_chat_message_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function show(ChatMessage $chatMessage): Response
     {
         return $this->render('chat_message/show.html.twig', [
@@ -57,6 +61,7 @@ final class ChatMessageController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_chat_message_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, ChatMessage $chatMessage, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ChatMessageType::class, $chatMessage);
@@ -75,6 +80,7 @@ final class ChatMessageController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_chat_message_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, ChatMessage $chatMessage, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$chatMessage->getId(), $request->getPayload()->getString('_token'))) {
