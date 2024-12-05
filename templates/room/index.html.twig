@@ -30,8 +30,8 @@
                                     <td>{{ room.createdAt ? room.createdAt|date('d/m/Y H:i') : '' }}</td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                        <a href="{{ path('app_user_show', {'id': room.id}) }}" class="btn btn-sm btn-primary">Voir</a>
-                                        <a href="{{ path('app_user_edit', {'id': room.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
+                                        <a href="{{ path('app_room_show', {'id': room.id}) }}" class="btn btn-sm btn-primary">Voir</a>
+                                        <a href="{{ path('app_room_edit', {'id': room.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
                                     </div>
                                     </td>
                                 </tr>
