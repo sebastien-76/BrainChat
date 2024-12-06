@@ -14,7 +14,7 @@
 					<ul class="nav nav-pills flex-column gap-2">
 						{% for room in rooms %}
 							<li class="nav-item">
-								<a class="nav-link text-truncate text-dark hover-primary" href="{{ path('app_chat_show', {'id': room.id}) }}">
+								<a class="nav-link text-truncate {% if room.id == currentRoom.id %}active{% else %}text-dark hover-primary{% endif %}" href="{{ path('app_chat_show', {'id': room.id}) }}">
 									<i class="bi bi-chat-left me-2">
 										{{ room.title }}
 									</i>
@@ -24,19 +24,7 @@
 					</ul>
 				</div>
 			</nav>
-			{# Section principale avec les messages #}
-			<div class="col-md-9 col-lg-10">
-				<div class="card h-80">
-					<div class="card-header bg-primary text-white">
-						<h5 class="mb-0">Messages</h5>
-					</div>
-
-					{# Zone des messages #}
-					<div class="card-body" style="height: calc(100vh - 300px); overflow-y: auto;">
-                    <h4 class="text-center pt-5 fw-bold">Choisissez une salle pour afficher les messages!</h4>
-                    </div>
-				</div>
-			</div>
+			<twig:Chat :form="form" :chatMessage="chatMessage" :currentRoom="currentRoom"/>
 		</div>
 	</div>
 {% endblock %}

@@ -15,6 +15,16 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class ChatController extends AbstractController
 {
+    #[Route('/chat', name: 'app_chat_index')]
+    public function index(RoomRepository $roomRepository): Response
+    {
+        $rooms = $roomRepository->findAll();
+
+        return $this->render('chat/index.html.twig', [
+            'rooms' => $rooms,
+        ]);
+    }
+
     #[Route('/chat/{id}', name: 'app_chat_show', requirements: ['id' => '\d+'])]
     public function showChat(int $id, RoomRepository $roomRepository,TokenInterface $token, ChatMessageRepository $chatMessageRepository, Request $request, EntityManagerInterface $em): Response
     {
@@ -41,7 +51,7 @@ class ChatController extends AbstractController
             return $this->redirectToRoute('app_chat_show', ['id' => $id], Response::HTTP_SEE_OTHER);
        }
 
-        return $this->render('chat/index.html.twig', [
+        return $this->render('chat/show.html.twig', [
             'rooms' => $roomRepository->findAll(),
             'currentRoom' => $room,
             'chatMessages' => $chatMessageRepository->findBy(['Room' => $room]),
