@@ -1,0 +1,43 @@
+{% block header %}
+	<nav class="navbar navbar-expand-lg bg-primary sticky-top" data-bs-theme="dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="{{ path('app_home')}}">BrainChat</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse text-white" id="navbarColor01">
+				{% if app.user %}
+					Bonjour
+					{{ app.user.userIdentifier }}
+					<ul class="navbar-nav ms-auto pe-5 mb-2 mb-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link text-white" href="{{ path('app_home')}}">Home
+								<span class="visually-hidden">(current)</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" href="{{ path('app_room_new')}}">Créer un salon</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" href="{{ path('app_chat_index')}}">Liste des salons</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" href="{{ path('app_user_show', {'id': app.user.id}) }}">Mon compte</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-white" href="{{ path('app_logout') }}">
+								Déconnexion</a>
+						</li>
+					</ul>
+				{% else %}
+					<ul class="navbar-nav ms-auto pe-5">
+						<li class="nav-item">
+							<a class="nav-link text-white" href="{{ path('app_login') }}">Connexion</a>
+						</li>
+					</ul>
+				{% endif %}
+			</div>
+		</div>
+	</nav>
+{% endblock %}

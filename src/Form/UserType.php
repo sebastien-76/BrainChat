@@ -15,22 +15,22 @@ class UserType extends AbstractType
         $builder
             ->add('email')
             ->add(
-                'password',
-                TextType::class,
-                ['label' => 'Mot de passe']
-            )
-            ->add(
                 'author',
                 TextType::class,
                 ['label' => 'Nom d\'utilisateur']
-            )
-        ;
+            );
+            if ($options['is_edit'] === false) {
+                $builder->add('password', PasswordType::class, [
+                    'required' => true,
+                ]);
+            };
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'is_edit' => false,
         ]);
     }
 }

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chat
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid mt-4 h-100">
+		<div
+			class="row">
+			{# Sidebar avec la liste des rooms #}
+			<nav class="col-md-3 col-lg-2 sidebar shadow-sm h-100">
+				<div class="p-4 bg-white">
+					<h4 class="mb-4 text-primary border-bottom pb-2">Liste des rooms</h4>
+					<ul class="nav nav-pills flex-column gap-2">
+						{% for room in rooms %}
+							<li class="nav-item">
+								<a class="nav-link text-truncate text-dark hover-primary" href="{{ path('app_chat_show', {'id': room.id}) }}">
+									<i class="bi bi-chat-left me-2">
+										{{ room.title }}
+									</i>
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</nav>
+			{# Section principale avec les messages #}
+			<div class="col-md-9 col-lg-10">
+				<div class="card h-80">
+					<div class="card-header bg-primary text-white">
+						<h5 class="mb-0">Messages</h5>
+					</div>
+
+					{# Zone des messages #}
+					<div class="card-body" style="height: calc(100vh - 300px); overflow-y: auto;">
+                    <h4 class="text-center pt-5 fw-bold">Choisissez une salle pour afficher les messages!</h4>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
