@@ -26,7 +26,7 @@ class ChatController extends AbstractController
     }
 
     #[Route('/chat/{id}', name: 'app_chat_show', requirements: ['id' => '\d+'])]
-    public function showChat(int $id, RoomRepository $roomRepository,TokenInterface $token, ChatMessageRepository $chatMessageRepository, Request $request, EntityManagerInterface $em): Response
+    public function showChat(int $id, RoomRepository $roomRepository, TokenInterface $token, ChatMessageRepository $chatMessageRepository, Request $request, EntityManagerInterface $em): Response
     {
         $room = $roomRepository->find($id);
         $user = $token->getUser();
@@ -49,7 +49,7 @@ class ChatController extends AbstractController
             $em->flush();
 
             return $this->redirectToRoute('app_chat_show', ['id' => $id], Response::HTTP_SEE_OTHER);
-       }
+        }
 
         return $this->render('chat/show.html.twig', [
             'rooms' => $roomRepository->findAll(),
@@ -57,6 +57,20 @@ class ChatController extends AbstractController
             'chatMessages' => $chatMessageRepository->findBy(['Room' => $room]),
             'form' => $form,
             'chatMessage' => $chatMessage
+        ]);
+    }
+
+    #[Route('/groq', name: 'groq_chat')]
+    public function chat(GroqService $groqService, RoomRepository $roomRepository): Response
+    {
+        $response = $groqService->generateResponse("Bonjour!");
+
+        return $this->render('chat/index.html.twig', [
+            'rooms' => $roomRepository->findAll(),
+            'response' => $response,
+            'currentRoom' => null,
+            'chat_messages' => [],
+            'form' => $this->createForm(ChatMessageType::class, new ChatMessage())->createView(),
         ]);
     }
 }
