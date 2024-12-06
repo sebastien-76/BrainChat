@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\ChatMessage;
 use App\Service\GroqService;
 use App\Form\ChatMessageType;
+use Doctrine\ORM\Mapping\Entity;
 use App\Repository\RoomRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ChatMessageRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,35 +82,59 @@ class ChatController extends AbstractController
     }
 
     #[Route('/groq', name: 'groq_chat')]
-public function chat2(GroqService $groqService, RoomRepository $roomRepository, ChatMessageRepository $chatMessageRepository): Response
-{
+    public function chat2(GroqService $groqService, UserRepository $userRepository, RoomRepository $roomRepository, ChatMessageRepository $chatMessageRepository, EntityManagerInterface $em): Response
+    {
 
-    $roomId = 62;
-    $messages = $chatMessageRepository->findBy(['Room' => $roomId]);
+        $url = $_SERVER['HTTP_REFERER'];
+        $explodeUrl = explode('/', $url);
+        $stringId = end($explodeUrl);
+        $id = (int) $stringId;
+        
+        $messages = $chatMessageRepository->findBy(['Room' => $id]);
 
-    $chatHistory = [];
-    foreach ($messages as $message) {
+        $chatHistory = [];
+        foreach ($messages as $message) {
+            $chatHistory[] = [
+                'role' => 'user',
+                'content' => $message->getContent(),
+            ];
+        }
+
+
         $chatHistory[] = [
             'role' => 'user',
-            'content' => $message->getContent(),
+            'content' => "Peux tu me faire un resumé ??",
         ];
+
+        $user = $userRepository->find(2);
+        $response = $groqService->generateResponse($chatHistory);
+
+
+        $chatMessageGroq = new ChatMessage();
+        $chatMessage = new ChatMessage();
+        $form = $this->createForm(
+            ChatMessageType::class,
+            $chatMessage,
+        );
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $chatMessageGroq->setContent($response['content']);
+            $chatMessageGroq->setRoom($roomRepository->find($id));
+            $chatMessageGroq->setUser($user);        $chatMessageGroq->setContent($response['content']);
+            $chatMessageGroq->setRoom($roomRepository->find($id));
+            $chatMessageGroq->setUser($user);
+            $em->persist($chatMessageGroq);
+            $em->flush();
+        }
+
+
+
+        return $this->render('chat/show.html.twig', [
+            'rooms' => $roomRepository->findAll(),
+            'currentRoom' => $roomRepository->find($id),
+            'chatMessages' => $chatMessageRepository->findBy(['Room' => $id]),
+            'form' => $form,
+            'chatMessage' => $chatMessageGroq
+        ]);
     }
-
-
-    $chatHistory[] = [
-        'role' => 'user',
-        'content' => "Peux tu me faire un resumé ??",
-    ];
-
-
-    $response = $groqService->generateResponse($chatHistory);
-
-    return $this->render('chat/groq.html.twig', [
-        'rooms' => $roomRepository->findAll(),
-        'response' => $response['content'],
-        'currentRoom' => null,
-        'chat_messages' => $messages,
-        'form' => $this->createForm(ChatMessageType::class, new ChatMessage())->createView(),
-    ]);
-}
 }
