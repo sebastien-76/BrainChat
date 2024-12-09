@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chat
+{% endblock %}
+{% block body %}
+    <h1>Chat</h1>
+
+    <div>
+        <h2>Rooms</h2>
+        <ul>
+            {% for room in rooms %}
+                <li>{{ room.title }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h2>Messages</h2>
+        <ul>
+            {% for message in chat_messages %}
+                <li><strong>{{ message.user.author }}:</strong> {{ message.content }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h2>Réponse de Groq</h2>
+        <p>{{ response }}</p>
+    </div>
+
+    <div>
+        <h2>Envoyer un message</h2>
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit">Envoyer</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

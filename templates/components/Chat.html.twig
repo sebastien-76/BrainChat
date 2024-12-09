@@ -7,8 +7,7 @@
 		</div>
 
 		{# Zone des messages #}
-
-		<div class="card-body" style="height: calc(100vh - 300px); overflow-y: auto;">
+		<div class="card-body" {# style="height: calc(100vh - 300px); overflow-y: auto;" #}>
 			<ul class="list-group">
 				{% for chat_message in this.chatMessages(currentRoom) %}
 					<li class="list-group-item">
@@ -27,8 +26,27 @@
 			</ul>
 		</div>
 
-		{# Formulaire d'envoi de message #}
+		{# Boutons d'appel à Groq #}
+		<div class="card-body ">
+			<button class="btn btn-primary">
+				<a class="nav-link" href={{ path('groq_chat', {'roomId': currentRoom.id,'questionId': 1}) }}>
+					Recapituler</a>
+			</button>
+			<button class="btn btn-primary">
+				<a class="nav-link" href="{{ path('groq_chat', {'roomId': currentRoom.id, 'questionId': 2}) }}">
+					Générer des idées</a>
+			</button>
+			<button class="btn btn-primary">
+				<a class="nav-link" href="{{ path('groq_chat', {'roomId': currentRoom.id, 'questionId': 3}) }}">
+					Analyser</a>
+			</button>
+			<button class="btn btn-primary">
+				<a class="nav-link" href="{{ path('groq_chat', {'roomId': currentRoom.id, 'questionId': 4}) }}">
+					Répondre</a>
+			</button>
+		</div>
 
+		{# Formulaire d'envoi de message #}
 		<div class="card-footer">
 			{{ include('chat_message/_form.html.twig') }}
 		</div>
