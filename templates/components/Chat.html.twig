@@ -29,16 +29,20 @@
 		{# Boutons d'appel à Groq #}
 		<div class="card-body ">
 			<button class="btn btn-primary">
-				<a class="nav-link" href={{ path('groq_chat')}}>
+				<a class="nav-link" href={{ path('groq_chat', {'roomId': currentRoom.id,'questionId': 1}) }}>
 					Recapituler</a>
 			</button>
 			<button class="btn btn-primary">
-				<a class="nav-link" href="#">
+				<a class="nav-link" href="{{ path('groq_chat', {'roomId': currentRoom.id, 'questionId': 2}) }}">
 					Générer des idées</a>
 			</button>
 			<button class="btn btn-primary">
-				<a class="nav-link" href="#">
-					Faire une critique</a>
+				<a class="nav-link" href="{{ path('groq_chat', {'roomId': currentRoom.id, 'questionId': 3}) }}">
+					Analyser</a>
+			</button>
+			<button class="btn btn-primary">
+				<a class="nav-link" href="{{ path('groq_chat', {'roomId': currentRoom.id, 'questionId': 4}) }}">
+					Répondre</a>
 			</button>
 		</div>
 

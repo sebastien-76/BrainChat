@@ -14,7 +14,7 @@
 					<ul class="nav nav-pills flex-column gap-2">
 						{% for room in rooms %}
 							<li class="nav-item">
-								<a class="nav-link text-truncate text-dark hover-primary" href="{{ path('app_chat_show', {'id': room.id}) }}">
+								<a class="nav-link text-truncate text-dark hover-primary" href="{{ path('app_chat_show', {'roomId': room.id}) }}">
 									<i class="bi bi-chat-left me-2">
 										{{ room.title }}
 									</i>
