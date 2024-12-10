@@ -29,7 +29,7 @@ Créer un fichier `.env.local` à la racine du projet
 APP_ENV=dev
 APP_DEBUG=true
 APP_SECRET=123
-DATABASE_URL="mysql://user:password@127.0.0.1:3306/brainchat?serverVersion=mariadb-10.6.18&charset=utf8mb4"
+DATABASE_URL="mysql://user:password@127.0.0.1:3306/brainchat?serverVersion=mariadb-10.11.18&charset=utf8mb4"
 ```
 
 Penser  à changer la variable `APP_SECRET` et les codes d'accès dans la variable `DATABASE_URL`.
