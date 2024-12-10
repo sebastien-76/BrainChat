@@ -11,17 +11,33 @@
 			<nav class="col-md-3 col-lg-2 sidebar shadow-sm h-100">
 				<div class="p-4 bg-white">
 					<h4 class="mb-4 text-primary border-bottom pb-2">Liste des rooms</h4>
+					<h6 class="mb-4 text-primary border-bottom p-2">Rooms privées</h6>
 					<ul class="nav nav-pills flex-column gap-2">
-						{% for room in rooms %}
-							<li class="nav-item">
-								<a class="nav-link text-truncate text-dark hover-primary" href="{{ path('app_chat_show', {'id': room.id}) }}">
-									<i class="bi bi-chat-left me-2">
-										{{ room.title }}
-									</i>
-								</a>
-							</li>
+						{% for room in privateRooms %}
+								<li class="nav-item">
+									<a class="nav-link text-truncate text-dark hover-primary" href="{{ path('app_chat_show', {'roomId': room.id}) }}">
+										<i class="bi bi-chat-left me-2">
+											{{ room.title }}
+										</i>
+									</a>
+								</li>
 						{% endfor %}
 					</ul>
+					<h6 class="mb-4 text-primary border-bottom p-2">Rooms publiques</h6>
+					<ul class="nav nav-pills flex-column gap-2">
+						{% for room in rooms %}
+							{% if room.isPrivate == false %}
+								<li class="nav-item">
+									<a class="nav-link text-truncate text-dark hover-primary" href="{{ path('app_chat_show', {'roomId': room.id}) }}">
+										<i class="bi bi-chat-left me-2">
+											{{ room.title }}
+										</i>
+									</a>
+								</li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+
 				</div>
 			</nav>
 			{# Section principale avec les messages #}
@@ -33,8 +49,8 @@
 
 					{# Zone des messages #}
 					<div class="card-body" style="height: calc(100vh - 300px); overflow-y: auto;">
-                    <h4 class="text-center pt-5 fw-bold">Choisissez une salle pour afficher les messages!</h4>
-                    </div>
+						<h4 class="text-center pt-5 fw-bold">Choisissez une salle pour afficher les messages!</h4>
+					</div>
 				</div>
 			</div>
 		</div>

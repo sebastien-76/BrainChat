@@ -1,44 +1,68 @@
-# projet BrainChat s4 simplon
-<hr />
+# Projet BrainChat s4 simplon
 
-Install the Application
+Ce repo contient une application brainstorming permettant de faire appel à l'IA pour assister les participants.
 
-    - Clone the GitHub repository
-    
-    - Configure your environment variables in the .env file :    
-      
-      => DATABASE_URL="mysql://username:password@127.0.0.1:3306/scores?serverVersion=8.0.32&charset=utf8mb4"
-      
-    - Download and install the project dependencies using the following Composer command : composer install
-    
-    - Create the database using the following command : php bin/console doctrine:database:create
-    
-    - Set up the database structure with the following command : php bin/console doctrine:migrations:migrate
-    
-    - Load fixtures to populate the database with sample data using this command : php bin/console doctrine:fixtures:load
+## Prérequis
+
+- Linux, MacOS, Windows
+- Bash
+- PHP 8
+- Composer
+- Symfony-cli
+- Mariadb 10
+
+## Installation
+
+```
+git clone https://github.com/sebastien-76/brainchat
+cd brainchat
+composer install
+
+```
+Créer une base de données et un utilisateur dédié pour cette base de données.
+
+## Configuration
+
+Créer un fichier `.env.local` à la racine du projet
+
+```
+APP_ENV=dev
+APP_DEBUG=true
+APP_SECRET=123
+DATABASE_URL="mysql://user:password@127.0.0.1:3306/brainchat?serverVersion=mariadb-10.11.18&charset=utf8mb4"
+```
+
+Penser  à changer la variable `APP_SECRET` et les codes d'accès dans la variable `DATABASE_URL`.
+
+**ATTENTION : `APP_SECRET` doit être une chaîne de caractère de 32 caractères en hexadécimal.**
+
+## Migration et fixtures
+
+Pour que l'application soit utilisable, il faut créer le schéma de la base de données et charger les données.
+
+On utilise le script suivant :
+
+```
+./bin/dofilo.sh
+```
+
+## Mail
+Pour tester les fonctionalités utilisant le mail, on utilise mailpit
+
+On utilise le script suivant :
+
+```
+./bin/mailpit
+```
+
+Pour avoir accès aux mails envoyés par l'application, ouvrir la page suivante: [http://localhost:8025](http://localhost:8025)
 
 
+## Utilisation
+Lancer le serveur web de développement :
 
+```
+symfony serve -d
+```
 
-Launch the Application
-	    
-    - Start the Symfony server : symfony server:start 
-    
-    - You can now access the application at http://localhost:8000
-    
-    - Use tools like Postman to make HTTP requests  
-    
-<hr />
-
-
-
-Default User
-
-You can use the following credentials to authenticate:
-	    
-  {
-  	"username": "",
- 	"password": "123"
-	}
-
-   
+Puis ouvrir la page suivante : [https://localhost:8000](https://localhost:8000)

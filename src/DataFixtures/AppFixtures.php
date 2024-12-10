@@ -33,8 +33,15 @@ class AppFixtures extends Fixture
                 'email' => 'admin@example.com',
                 'password' => '123',
                 'roles' => ['ROLE_ADMIN'],
-                'author' => 'admin',
+                'author' => 'Admin',
             ],
+            [
+                'email' => 'groq@example.com',
+                'password' => '123',
+                'roles' => ['ROLE_USER'],
+                'author' => 'Groq',
+            ],
+
         ];
 
         foreach ($datas as $data) {

@@ -18,6 +18,7 @@
                                     <th>Titre</th>
                                     <th>Description</th>
                                     <th>Date de création</th>
+                                    <th>Privée</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -28,6 +29,7 @@
                                     <td>{{ room.title }}</td>
                                     <td>{{ room.description }}</td>
                                     <td>{{ room.createdAt ? room.createdAt|date('d/m/Y H:i') : '' }}</td>
+                                    <td>{{ room.isprivate ? 'Oui' : 'Non' }}</td>
                                     <td>
                                         <div class="btn-group" role="group">
                                         <a href="{{ path('app_room_show', {'id': room.id}) }}" class="btn btn-sm btn-primary">Voir</a>

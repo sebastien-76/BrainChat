@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Email de renouvellement de mot de passe envoyé
+{% endblock %}
+
+{% block body %}
+	<p>
+		Si un compte correspondant à votre mail existe, un email contenant un lien permettant de renouveller votre mot de passe vous a été envoyé.
+		Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+	</p>
+	<p>Si vous n'avez pas reçu de mail, vérifier dans vos spams ou
+		<a href="{{ path('app_forgot_password_request') }}">renouveler la demande</a>.</p>
+{% endblock %}

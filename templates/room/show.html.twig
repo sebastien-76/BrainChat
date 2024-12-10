@@ -32,7 +32,22 @@
                     </table>
                 </div>
             </div>
-
+            <div class="card shadow mt-4">
+                <div class="card-header">
+                    <h3 class="mb-0">Participants</h3>
+                </div>
+                <div class="card-body">
+                    {% if room.participants|length > 0 %}
+                        <ul class="list-group list-group-flush">
+                            {% for participant in room.participants %}
+                                <li class="list-group-item">{{ participant.user.author }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted mb-0">Aucun participant pour le moment.</p>
+                    {% endif %}
+                </div>
+            </div>
             <div class="text-center mt-4">
                 <div class="btn-group" role="group">
                     <a href="{{ path('app_room_index') }}" class="btn btn-secondary me-2">
