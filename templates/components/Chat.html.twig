@@ -1,7 +1,11 @@
 {# Section principale avec les messages #}
 <div {{ attributes }} class="col-md-9 col-lg-10" data-poll="refreshChatMessages">
 	<h1 class="text-center mb-4">{{ currentRoom.title }}</h1>
-	<div class="card h-80">
+	<button class="btn btn-primary m-3">
+		<a class="nav-link" href={{ path('app_invitation_new') }}>
+			Inviter des participants</a>
+	</button>
+	<div class="card h-80 ">
 		<div class="card-header bg-primary text-white">
 			<h5 class="mb-0">Messages</h5>
 		</div>
@@ -29,7 +33,7 @@
 		{# Boutons d'appel à Groq #}
 		<div class="card-body ">
 			<button class="btn btn-primary">
-				<a class="nav-link" href={{ path('groq_chat', {'roomId': currentRoom.id,'questionId': 1}) }}>
+				<a class="nav-link" href={{ path('groq_chat', {'roomId': currentRoom.id,'questionId': 1} ) }}>
 					Recapituler</a>
 			</button>
 			<button class="btn btn-primary">
