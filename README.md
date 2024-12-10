@@ -46,6 +46,18 @@ On utilise le script suivant :
 ./bin/dofilo.sh
 ```
 
+## Mail
+Pour tester les fonctionalités utilisant le mail, on utilise mailpit
+
+On utilise le script suivant :
+
+```
+./bin/mailpit
+```
+
+Pour avoir accès aux mails envoyés par l'application, ouvrir la page suivante: [https://localhost:8025](https://localhost:8025)
+
+
 ## Utilisation
 Lancer le serveur web de développement :
 
