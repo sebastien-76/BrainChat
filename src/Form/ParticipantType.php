@@ -17,11 +17,11 @@ class ParticipantType extends AbstractType
         $builder
             ->add('user', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'id',
+                'choice_label' => 'author',
             ])
             ->add('room', EntityType::class, [
                 'class' => Room::class,
-                'choice_label' => 'id',
+                'choice_label' => 'title',
             ])
         ;
     }
