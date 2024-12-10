@@ -41,7 +41,7 @@ final class RoomController extends AbstractController
 
         return $this->render('room/new.html.twig', [
             'room' => $room,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 

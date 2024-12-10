@@ -9,6 +9,7 @@ use App\Repository\RoomRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ChatMessageRepository;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,24 +20,37 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class ChatController extends AbstractController
 {
     #[Route('/chat', name: 'app_chat_index')]
-    public function index(RoomRepository $roomRepository): Response
+    #[IsGranted('IS_AUTHENTICATED_FULLY', message: 'Connexion requise')]
+    public function index(RoomRepository $roomRepository, Security $security): Response
     {
         $rooms = $roomRepository->findAll();
 
+        $filterFunction = function(\App\Entity\Room $room): bool {  // Enlever le namespace complet
+            try {
+                return $this->isGranted('VIEW', $room);
+            } catch (\Exception $e) {
+                return false;
+            }
+        };
+        $accessibleRooms = array_filter($rooms, $filterFunction);
         return $this->render('chat/index.html.twig', [
-            'rooms' => $rooms,
+            'rooms' => $accessibleRooms,
         ]);
     }
 
     #[Route('/chat/{roomId}', name: 'app_chat_show', requirements: ['roomId' => '\d+'])]
+    #[IsGranted('IS_AUTHENTICATED_FULLY', message: 'Connexion requise')]
     public function showChat(int $roomId, RoomRepository $roomRepository, TokenInterface $token, ChatMessageRepository $chatMessageRepository, Request $request, EntityManagerInterface $em): Response
     {
         $room = $roomRepository->find($roomId);
-        $user = $token->getUser();
 
         if (!$room) {
             throw $this->createNotFoundException("Room non trouvée");
         }
+
+        $this->denyAccessUnlessGranted('VIEW', $room, 'Accès non autorisé à cette room.');
+
+        $user = $token->getUser();
 
         $chatMessage = new ChatMessage();
         $form = $this->createForm(
@@ -98,7 +112,7 @@ public function chat(int $roomId, int $questionId, GroqService $groqService, Roo
     $selectedQuestion = $availableQuestions[$questionId] ?? $availableQuestions[1];
 
 
-    $groqUser = $userRepository->find(2);
+    $groqUser = $userRepository->findOneBy(['email' => 'groq@example.com']);
 
     $response = $groqService->generateResponse($chatHistory);
     $room = $roomRepository->find($roomId);
