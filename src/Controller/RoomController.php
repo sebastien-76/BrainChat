@@ -41,7 +41,7 @@ final class RoomController extends AbstractController
 
         return $this->render('room/new.html.twig', [
             'room' => $room,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -83,5 +83,16 @@ final class RoomController extends AbstractController
         }
 
         return $this->redirectToRoute('app_room_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/users', name: 'app_room_users', methods: ['GET'])]
+    public function showUsers(Room $room): Response
+    {
+        $users = $room->getParticipants();
+
+        return $this->render('room/users.html.twig', [
+            'room' => $room,
+            'users' => $users,
+        ]);
     }
 }

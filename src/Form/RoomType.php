@@ -6,6 +6,7 @@ use App\Entity\Room;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class RoomType extends AbstractType
 {
@@ -13,7 +14,11 @@ class RoomType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description');
+            ->add('description')
+            ->add('isPrivate', CheckboxType::class, [
+                'label' => 'Room privée',
+                'required' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
