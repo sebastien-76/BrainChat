@@ -55,7 +55,7 @@ On utilise le script suivant :
 ./bin/mailpit
 ```
 
-Pour avoir accès aux mails envoyés par l'application, ouvrir la page suivante: [https://localhost:8025](https://localhost:8025)
+Pour avoir accès aux mails envoyés par l'application, ouvrir la page suivante: [http://localhost:8025](http://localhost:8025)
 
 
 ## Utilisation
