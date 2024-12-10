@@ -16,6 +16,38 @@ class RoomRepository extends ServiceEntityRepository
         parent::__construct($registry, Room::class);
     }
 
+
+        //    /**
+    //     * @return Room[] Returns an array of Room objects
+    //     */
+    public function findAllPrivateRooms(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.isPrivate = :val')
+            ->setParameter('val', true)
+            ->orderBy('r.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    //    /**
+    //     * @return Room[] Returns an array of Room objects
+    //     */
+        public function findPrivateRooms($userId): array
+        {
+            return $this->createQueryBuilder('r')
+                ->andWhere('r.isPrivate = :val')
+                ->setParameter('val', true)
+                ->innerJoin('r.participants', 'p')
+                ->andWhere('p.user = :val2')
+                ->setParameter('val2', $userId)
+                ->orderBy('r.id', 'ASC')
+                ->getQuery()
+                ->getResult()
+            ;
+        }
+
     //    /**
     //     * @return Room[] Returns an array of Room objects
     //     */
