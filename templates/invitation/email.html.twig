@@ -1,0 +1,11 @@
+<h1>Invitation à rejoindre une salle de chat</h1>
+
+<p>Bonjour {{ invitation.recipient.email }},</p>
+
+<p>Vous avez été invité(e) par {{ invitation.sender.email }} à rejoindre la salle "{{ invitation.room.title }}".</p>
+
+<p>Pour rejoindre la salle, cliquez sur le lien suivant :</p>
+
+<a href="{{ url('app_room_join', {token: invitation.token}) }}">Rejoindre la salle</a>
+
+<p>Cordialement,<br>L'équipe BrainChat</p>

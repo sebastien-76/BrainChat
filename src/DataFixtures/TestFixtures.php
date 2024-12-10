@@ -69,6 +69,7 @@ class TestFixtures extends Fixture
             $participant = new Participant();
             $participant->setUser($this->faker->randomElement($users));
             $participant->setRoom($this->faker->randomElement($rooms));
+            $participant->setRoles(['ROLE_USER']);
             $manager->persist($participant);
         }
 

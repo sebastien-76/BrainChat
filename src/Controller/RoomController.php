@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Room;
 use App\Form\RoomType;
+use App\Entity\Participant;
 use App\Repository\RoomRepository;
+use App\Repository\InvitationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -95,4 +97,29 @@ final class RoomController extends AbstractController
             'users' => $users,
         ]);
     }
+
+    #[Route('/room/join/{token}', name: 'app_room_join')]
+    public function join(
+        string $token,
+        InvitationRepository $invitationRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
+    $invitation = $invitationRepository->findOneBy(['token' => $token]);
+
+    if (!$invitation) {
+        throw $this->createNotFoundException('Invitation non valide');
+    }
+
+    $participant = new Participant();
+    $participant->setUser($invitation->getRecipient());
+    $participant->setRoom($invitation->getRoom());
+    $participant->setRoles(['ROLE_USER']);
+
+    $entityManager->persist($participant);
+    $entityManager->flush();
+
+    return $this->redirectToRoute('app_room_show', [
+        'id' => $invitation->getRoom()->getId()
+    ]);
+}
 }

@@ -21,6 +21,9 @@ class Participant
     #[ORM\JoinColumn(nullable: false)]
     private ?Room $room = null;
 
+    #[ORM\Column]
+    private array $roles = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +49,18 @@ class Participant
     public function setRoom(?Room $room): static
     {
         $this->room = $room;
+
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
 
         return $this;
     }
