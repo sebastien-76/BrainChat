@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Room;
 use App\Form\RoomType;
+use App\Entity\Participant;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +34,12 @@ final class RoomController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $participant = new Participant();
+            $participant->setUser($this->getUser());
+            $participant->setRoom($room);
+            $participant->setRoles(['ROLE_MODERATOR']);
             $entityManager->persist($room);
+            $entityManager->persist($participant);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_chat_index', [],Response::HTTP_SEE_OTHER);
@@ -62,6 +68,15 @@ final class RoomController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $participant = new Participant();
+            $participant->setUser($this->getUser());
+            $participant->setRoom($room);
+            $participant->setRoles(['ROLE_MODERATOR']); // Ajouter cette propriété dans l'entité Participant
+
+            $entityManager->persist($room);
+            $entityManager->persist($participant);
+            $entityManager->flush();
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_chat_show', ['id' => $room->getId()],  Response::HTTP_SEE_OTHER);
